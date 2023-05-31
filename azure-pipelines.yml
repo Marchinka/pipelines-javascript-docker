@@ -67,11 +67,9 @@ stages:
           - task: KubernetesManifest@1
             displayName: Deploy to Kubernetes cluster
             inputs:
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-              #  $(Pipeline.Workspace)/manifests/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                - task: KubernetesManifest@1
+              action: 'deploy'
+              connectionType: 'kubernetesServiceConnection'
+              manifests: '$(Pipeline.Workspace)/manifests/deployment.yml'
+              containers: '- task: KubernetesManifest@1'
+              imagePullSecrets: '$(imagePullSecret)'
+              rolloutStatusTimeout: '30'
